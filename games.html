@@ -9,54 +9,82 @@
   </head>
   
   <body>
-    <h1>Granada High Tutorial</h1>
+    <h1>Flappy UFO</h1>
     <p>Processing demo</p>
     
     <script type="text/processing">
     
-      Ball[] ball;
-      void setup(){
-        size(700, 600);
-        frameRate(100);
-        ball = new Ball[100];
-        for(int i = 0; i < ball.length; i++){
-            ball[i] = new Ball();
-        }
-      }
-      void draw(){
-          background(155,0,0);
-            for(int i = 0; i < ball.length; i++){
-                ball[i].display();
-            }
-      }
-      class Ball{
-          float x;
-          float y;
-          float Vx;
-          float Vy;
-          float r,g,b,o;
-          float d;
-          Ball(){
-              x = random(width);
-              y = random(height);
-              Vx = random(-5,5);
-              Vy = random(-5,5);
-              r = random(255);
-              g = random(255);
-              b = random(255);
-              o = random(255);
-              d = random(30) + 15;
-          }
-          void display(){
-              fill(r,g,b,o);
-              ellipse(x,y,d,d);
-              x += Vx;
-              y += Vy;
-              if(x > width || x < 0){
-                  Vx *= -1;
-              }
-              if(y > height || y < 0){
-                  Vy *= -1;
+PImage bg, spaceship, topPipe, botPipe;
+int bgx, bgy, sx, sy, g, Vsy;
+int[] pipeX, pipeY;
+int gameState;
+
+
+//ONE TIME
+ void setup() {
+   size(950, 700);
+   bg = loadImage("./img/bg.png");
+   spaceship = loadImage("./img/spaceship.png");
+   topPipe = loadImage("./img/topPipe.png");
+   botPipe = loadImage("./img/botPipe.png");
+   sx = 100;
+   sy = 50;
+   g = 1;
+   pipeX = new int[5];
+   pipeY = new int[pipeX.length];
+   //POPULATE THE ARRAY WITH VALUES
+   for(int i = 0; i < pipeX.length; i++) {
+     pipeX[i] = width + 250*i;
+     pipeY[i] = (int)random(-350, 0);
+   }
+ }
+ 
+ //MAIN GAME LOOP
+ void draw() {
+   if(gameState==0) {
+     setBg();
+     setPipes();
+     spaceship();
+   } else {
+     text("YOU LOSE!", 20, 100);
+   }
+ }
+ 
+ void setPipes() {
+   for(int i = 0; i < pipeX.length; i++) {
+     image(topPipe, pipeX[i], pipeY[i] + -245);
+     image(botPipe, pipeX[i], pipeY[i] + 625);
+     pipeX[i]-= 2.5;
+     if(pipeX[i] < -200) {
+       pipeX[i] = width;
+     }
+     if(sx > pipeX[i]-96 && sx < pipeX[i] + 100) {
+         if(! (sy > pipeY[i] + 650 && sy < pipeY[i] + (650 + 220)))
+       gameState = 1;
+     }
+   }
+ }
+ 
+ void spaceship() {
+   image(spaceship, sx, sy);
+   sy = sy + Vsy;
+   Vsy = Vsy + g;
+ }
+ 
+ void mousePressed() {
+   Vsy = -15;
+ }
+ 
+ 
+ 
+ void setBg() {
+   image(bg, bgx, bgy);
+   image(bg, bgx + bg.width, bgy);
+   bgx = bgx -1;
+   if(bgx < -bg.width) {
+     bgx = 0;
+   }
+ }
               }
           }
     }
