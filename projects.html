@@ -1,16 +1,21 @@
-<!DOCTYPE html>
-</html>
-    <head>
-        <title>
-            Jeremy's Homepage|Projects
-        </title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="shortcut icon" type="image/x-icon" href="https://st2.depositphotos.com/5142301/9485/v/950/depositphotos_94856426-stock-illustration-j-letter-logo-formed-by.jpg" />
-        <meta name="viewport" content="width=divice-width">
-    </head>
-    
-    <body>
-        <header>
+<!Doctype: HTML w/ Processing>
+
+<html>
+
+  <head>
+      <title>
+            Jeremy's Homepage | Projects
+      </title>
+      <link rel="stylesheet" href="style.css">
+      <link rel="shortcut icon" type="image/x-icon" href="https://st2.depositphotos.com/5142301/9485/v/950/depositphotos_94856426-stock-illustration-j-letter-logo-formed-by.jpg" />
+      <meta name="viewport" content="width=divice-width">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Processing Demo</title>
+      <script type="text/javascript" src="js/processing.js"></script>
+  </head>
+  
+  <body>
+    <header>
             <div class="container">
                 <div id="branding">
                     <h1>Jeremy Abella<h1>
@@ -19,17 +24,94 @@
                 <nav>
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
                         <li><a href="portfolio.html">Portfolio</a></li>
-                        <li class="current"><a href="projects.html">Projects</a></li>
+                        <li class="current"><a href="portfolio.html">Portfolio</a></li>
                         <li><a href="music.html">Music</a></li>
-                        <li><a href="gaming.html">Gaming</a></li>
                     </ul>
                 </nav>
             </div>
         </header>
-        <h3>All my projects from class will go here. This includes games, fun interactives, and more!</h3>
-    </body>
+    <h1>Flappy UFO</h1>
+    <p>This is my first processing program!</p>
+    
+    <script type="text/processing">
+    
+        PImage bg, spaceship, topPipe, botPipe;
+        int bgx, bgy, sx, sy, g, Vsy;
+        int[] pipeX, pipeY;
+        int gameState;
+        //ONE TIME
+         void setup() {
+           size(950, 700);
+           bg = loadImage("./img/bg.png");
+           spaceship = loadImage("./img/spaceship.png");
+           topPipe = loadImage("./img/topPipe.png");
+           botPipe = loadImage("./img/botPipe.png");
+           sx = 100;
+           sy = 50;
+           g = 1;
+           pipeX = new int[5];
+           pipeY = new int[pipeX.length];
+           //POPULATE THE ARRAY WITH VALUES
+           for(int i = 0; i < pipeX.length; i++) {
+             pipeX[i] = width + 250*i;
+             pipeY[i] = (int)random(-350, 0);
+           }
+         }
+
+         //MAIN GAME LOOP
+         void draw() {
+           if(gameState==0) {
+             setBg();
+             setPipes();
+             spaceship();
+           } else {
+             text("YOU LOSE!", 20, 100);
+           }
+         }
+
+         void setPipes() {
+           for(int i = 0; i < pipeX.length; i++) {
+             image(topPipe, pipeX[i], pipeY[i] + -245);
+             image(botPipe, pipeX[i], pipeY[i] + 625);
+             pipeX[i]-= 2.5;
+             if(pipeX[i] < -200) {
+               pipeX[i] = width;
+             }
+             if(sx > pipeX[i]-96 && sx < pipeX[i] + 100) {
+                 if(! (sy > pipeY[i] + 650 && sy < pipeY[i] + (650 + 220)))
+               gameState = 1;
+             }
+           }
+         }
+
+         void spaceship() {
+           image(spaceship, sx, sy);
+           sy = sy + Vsy;
+           Vsy = Vsy + g;
+         }
+
+         void mousePressed() {
+           Vsy = -15;
+         }
+
+
+
+         void setBg() {
+           image(bg, bgx, bgy);
+           image(bg, bgx + bg.width, bgy);
+           bgx = bgx -1;
+           if(bgx < -bg.width) {
+             bgx = 0;
+           }
+         }
+                      }
+                  }
+            }
+    </script>
+    <canvas id="sketch" style="border: 1px solid black;"></canvas>
+    
+  </body>
     
     <footer>
             <h4>Jeremy Abella</h4>
