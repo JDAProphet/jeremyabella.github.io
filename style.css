@@ -54,6 +54,7 @@ header a:hover {
     background-image:url("https://5007u250tj629dsme1xkofe1-wpengine.netdna-ssl.com/wp-content/uploads/2017/04/img-bg-header-homepage-1.jpg");no-repeat -300px;
     text-align:center;
     color:black;
+    background-position: -1330px;
 }
 #showcase {
     margin-top:100px;
