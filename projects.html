@@ -39,14 +39,16 @@
      int bgx, bgy, sx, sy, g, Vsy;
      int[] pipeX, pipeY;
      int gameState, score;
+     
+     /* @pjs preload="/img/bg.png,/img/topPipe.png,/img/botPipe.png,/img/spaceship.png"; */
 
-    //ONE TIME
+     //ONE TIME
      void setup() {
        size(950, 700);
-       bg = loadImage("./img/bg.png");
-       spaceship = loadImage("./img/spaceship.png");
-       topPipe = loadImage("./img/topPipe.png");
-       botPipe = loadImage("./img/botPipe.png");
+       bg = loadImage("/img/bg.png");
+       spaceship = loadImage("/img/spaceship.png");
+       topPipe = loadImage("/img/topPipe.png");
+       botPipe = loadImage("/img/botPipe.png");
        sx = 100;
        sy = 90;
        g = 1;
